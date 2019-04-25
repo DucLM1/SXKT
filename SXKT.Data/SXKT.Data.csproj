@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtoes\" />
+    <Folder Include="Entites\" />
+    <Folder Include="Conditions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SXKT.Infrastructure\SXKT.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

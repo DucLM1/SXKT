@@ -9,14 +9,25 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SXKT.Infrastructure.InversionOfControl;
+using SXKT.Infrastructure.Utility;
+using SXKT.WebApp.Configs;
 
 namespace SXKT.WebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)                
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
+
+            AppSettings.Instance.SetConfiguration(Configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -33,6 +44,12 @@ namespace SXKT.WebApp
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            /***************DependencyRegistration*****************/
+
+            DependencyRegistration.RegisterTypes(services);
+            SXKTServiceLocator.SetLocatorProvider(services.BuildServiceProvider());
+            AutoMapperInitiator.Init();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

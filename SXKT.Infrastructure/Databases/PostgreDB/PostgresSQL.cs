@@ -29,10 +29,7 @@ namespace SXKT.Infrastructure.Databases.PostgreDB
             Slave = 2,
 
             [Description("ExternalConnection")]
-            External = 3,
-
-            [Description("OldDataOtomurah201803")]
-            OldData201803 = 4
+            External = 3
         }
 
         private static Dictionary<Type, DbType> typeMap;
